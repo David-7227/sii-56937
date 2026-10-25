@@ -162,6 +162,23 @@ void CMundo::OnKeyboardDown(unsigned char key, int x, int y)
 	}
 }
 
+void CMundo::OnKeyboardUp(unsigned char key, int x, int y)
+{
+   
+    switch(key)
+    {
+        case 's':
+        case 'w':
+            jugador1.velocidad.y = 0;
+            break;
+
+        case 'l':
+        case 'o':
+            jugador2.velocidad.y = 0;
+            break;
+    }
+}
+
 void CMundo::Init()
 {
 	Plano p;

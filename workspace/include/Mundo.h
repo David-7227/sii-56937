@@ -24,6 +24,7 @@ public:
 	
 	void InitGL();	
 	void OnKeyboardDown(unsigned char key, int x, int y);
+	void OnKeyboardUp(unsigned char key, int x, int y);
 	void OnTimer(int value);
 	void OnDraw();	
 
