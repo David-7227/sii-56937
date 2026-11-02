@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-
+#include <unistd.h>
+#include <fcntl.h>
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -135,6 +136,7 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=2+2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=2+2*rand()/(float)RAND_MAX;
 		puntos2++;
+		write(fd, "Hola. Marca derecha\n", strlen("Hola. Marca derecha\n"));
 	}
 
 	if(fondo_dcho.Rebota(esfera))
@@ -144,7 +146,10 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=-2-2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=-2-2*rand()/(float)RAND_MAX;
 		puntos1++;
+		write(fd, "Hola. Marca izquierda\n", strlen("Hola. Marca izquierda\n"));
 	}
+	
+	
 
 }
 
@@ -209,4 +214,13 @@ void CMundo::Init()
 	jugador2.g=0;
 	jugador2.x1=6;jugador2.y1=-1;
 	jugador2.x2=6;jugador2.y2=1;
+	
+	/* Abrir el FIFO */
+	fd = open("/tmp/FIFO_LOGGER", O_WRONLY);
+
+	if (fd < 0) {
+    	perror("No puede abrirse el FIFO");
+    	exit(1);
+	}
+	
 }

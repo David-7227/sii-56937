@@ -35,8 +35,10 @@ public:
 	Raqueta jugador1;
 	Raqueta jugador2;
 
-	int puntos1;
-	int puntos2;
+	int puntos1=0;
+	int puntos2=0;
+	
+	int fd; //Descriptor tuberia fifo
 };
 
 #endif // !defined(AFX_MUNDO_H__9510340A_3D75_485F_93DC_302A43B8039A__INCLUDED_)
