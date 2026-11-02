@@ -1,6 +1,22 @@
 
 DAVID FERNANDEZ
 
+# Práctica 2:
+
+Se ha implementado un programa logger que recibe
+información del juego de tenis mediante una tubería
+FIFO.
+Funciones nuevas:
+
+	* Recepción y visualización de los mensajes en el logger.
+	* Finalización automática del juego cuando un jugador
+  	alcanza 3 puntos.
+	* Finalización del logger al cerrarse la comunicación.
+
+
+
+
+
 # Sistemas Informáticos Industriales
 
 ![UPM](https://img.shields.io/badge/UPM-ETSIDI-red)

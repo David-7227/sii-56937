@@ -136,7 +136,9 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=2+2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=2+2*rand()/(float)RAND_MAX;
 		puntos2++;
-		write(fd, "Hola. Marca derecha\n", strlen("Hola. Marca derecha\n"));
+		char mensaje[100];
+		sprintf(mensaje, "Jugador 2 marca 1 punto, lleva un total de %d puntos.\n", puntos2);
+		write(fd, mensaje, strlen(mensaje));
 	}
 
 	if(fondo_dcho.Rebota(esfera))
@@ -146,10 +148,26 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=-2-2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=-2-2*rand()/(float)RAND_MAX;
 		puntos1++;
-		write(fd, "Hola. Marca izquierda\n", strlen("Hola. Marca izquierda\n"));
+		char mensaje[100];
+		sprintf(mensaje, "Jugador 1 marca 1 punto, lleva un total de %d puntos.\n", puntos1);
+		write(fd, mensaje, strlen(mensaje));
 	}
 	
+	if(puntos1>=3){
+		char mensaje1[100];
+		sprintf(mensaje1, "Jugador 1 gana el partido con un resultado de %d - %d.\n", puntos1, puntos2);
+		write(fd, mensaje1, strlen(mensaje1));
+		exit(0);
+		
+	}
 	
+	else if(puntos2>=3){
+		char mensaje2[100];
+		sprintf(mensaje2, "Jugador 2 gana el partido con un resultado de %d - %d.\n", puntos1, puntos2);
+		write(fd, mensaje2, strlen(mensaje2));
+		exit(0);
+		
+	}	
 
 }
 
