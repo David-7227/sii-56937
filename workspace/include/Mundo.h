@@ -14,7 +14,7 @@
 
 #include "Esfera.h"
 #include "Raqueta.h"
-
+#include "DatosMemCompartida.h"
 class CMundo  
 {
 public:
@@ -39,6 +39,10 @@ public:
 	int puntos2=0;
 	
 	int fd; //Descriptor tuberia fifo
+	
+	int fdMem; // Descriptor para la memoria compartida
+	DatosMemCompartida* datosMem = nullptr; // Puntero a DatosMemCompartida
+	
 };
 
 #endif // !defined(AFX_MUNDO_H__9510340A_3D75_485F_93DC_302A43B8039A__INCLUDED_)

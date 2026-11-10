@@ -11,6 +11,8 @@
 #include <math.h>
 #include <unistd.h>
 #include <fcntl.h>
+
+#include <sys/mman.h>
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -22,7 +24,17 @@ CMundo::CMundo()
 
 CMundo::~CMundo()
 {
-
+	
+	
+    	if (fd >= 0)
+    	{
+        	close(fd);
+    	}	
+	
+	if (datosMem != nullptr)
+    	{
+        	munmap(datosMem, sizeof(DatosMemCompartida));
+    	}
 }
 
 void CMundo::InitGL()
@@ -116,6 +128,24 @@ void CMundo::OnDraw()
 
 void CMundo::OnTimer(int value)
 {	
+
+	// Movimiento del bot:
+
+	if (datosMem->accion == 1)	// Si tenis detecta que la acción vale 1, entonces subirá.
+   	{
+        	OnKeyboardDown('w', 0, 0);
+    	}
+    	else if (datosMem->accion == -1)
+    	{
+        	OnKeyboardDown('s', 0, 0);
+    	}
+    	else
+    	{
+        	jugador1.velocidad.y = 0;
+    	}
+
+
+
 	jugador1.Mueve(0.025f);
 	jugador2.Mueve(0.025f);
 	esfera.Mueve(0.025f);
@@ -168,6 +198,11 @@ void CMundo::OnTimer(int value)
 		exit(0);
 		
 	}	
+	
+	// Necesitamos que el bot vay actualizando su información de la esfera y la raqueta:
+	
+	datosMem->esfera = esfera;
+	datosMem->raqueta1 = jugador1; 
 
 }
 
@@ -233,12 +268,39 @@ void CMundo::Init()
 	jugador2.x1=6;jugador2.y1=-1;
 	jugador2.x2=6;jugador2.y2=1;
 	
-	/* Abrir el FIFO */
+	/* Abrir el FIFO (P2)*/
+	
 	fd = open("/tmp/FIFO_LOGGER", O_WRONLY);
 
 	if (fd < 0) {
     	perror("No puede abrirse el FIFO");
     	exit(1);
 	}
+	
+	/* Abrir el los datos de la memoria (P3)*/
+	
+	fdMem=open("/tmp/DATOS_MEM_COMPARTIDA", O_CREAT|O_RDWR, 0666);
+	
+	if (fdMem < 0) {
+    	perror("No puede abrirse el FIFO");
+    	exit(1);
+	}
+	
+	ftruncate(fdMem, sizeof(DatosMemCompartida));
+	
+	void* direccion;
+
+	direccion = mmap(NULL, sizeof(DatosMemCompartida), PROT_READ | PROT_WRITE, MAP_SHARED, fdMem, 0);
+	if (direccion == MAP_FAILED)
+	{
+		perror("Error en la proyeccion mmap"); 
+		exit(1);
+	}
+	close(fdMem);
+
+	datosMem = (DatosMemCompartida*)direccion;
+	datosMem->accion = 0;
+	datosMem->esfera = esfera;
+	datosMem->raqueta1 = jugador1;
 	
 }
