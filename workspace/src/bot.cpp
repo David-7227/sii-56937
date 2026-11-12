@@ -32,6 +32,13 @@ int main(int argc,char* argv[])
 
 	while(1)
 	{
+		
+		if(dat->fin==1){
+		
+			break;
+		
+		}
+		
 		usleep(25000);
 		// X3 Completar la lógica
 		// dat->jugador, por ejemplo, accede al identificador del jugador

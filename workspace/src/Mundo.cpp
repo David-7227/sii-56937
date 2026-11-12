@@ -33,6 +33,7 @@ CMundo::~CMundo()
 	
 	if (datosMem != nullptr)
     	{
+    		datosMem->fin=1;
         	munmap(datosMem, sizeof(DatosMemCompartida));
     	}
 }
@@ -300,6 +301,7 @@ void CMundo::Init()
 
 	datosMem = (DatosMemCompartida*)direccion;
 	datosMem->accion = 0;
+	datosMem->fin=0;
 	datosMem->esfera = esfera;
 	datosMem->raqueta1 = jugador1;
 	
